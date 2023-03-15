@@ -4,7 +4,7 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "start:dev": "npm run start-server & npm run build:dev",
+    "start": "npm run start-server & npm run build:dev",
     "start-server": "nodemon server --ignore public/ --ignore client/",
     "build:dev": "npm run build -- --watch --mode=development",
     "build": "webpack"
