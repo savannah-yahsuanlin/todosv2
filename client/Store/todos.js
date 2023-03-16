@@ -65,7 +65,7 @@ export const fetchTodos = () => {
 	}
 }
 
-export default function todosReducer(state=[], action) {
+export default (state=[], action) => {
 	switch(action.type) {
 		case SET_TODOS:
 			return action.todos

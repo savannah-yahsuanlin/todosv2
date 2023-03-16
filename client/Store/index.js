@@ -1,16 +1,17 @@
-import  {createStore, applyMiddleware, combineReducers} from 'redux'
-import loggingMiddleware from 'redux-logger'
-import thunk from 'redux-thunk'
-import todosReducer from './todos'
+import {createStore, applyMiddleware, combineReducers} from 'redux'
+import {createLogger} from 'redux-logger'
+import {composeWithDevTools} from 'redux-devtools-extension'
+import thunkMiddleware from 'redux-thunk'
+import todos from './todos'
 
-const rootReducer = combineReducers({
-	todos: todosReducer
+const reducer = combineReducers({
+	todos
 })
 
-export default createStore(
-  rootReducer,
-  applyMiddleware(thunk, loggingMiddleware)
-);
+const middleware = composeWithDevTools(
+  applyMiddleware(thunkMiddleware, createLogger({collapsed:true}))
+)
 
+const store = createStore(reducer, middleware)
 
-
+export default store
