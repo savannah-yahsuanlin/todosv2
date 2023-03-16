@@ -268,8 +268,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _store_todo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/todo */ "./client/store/todo.js");
 /* harmony import */ var _store_todos__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/todos */ "./client/store/todos.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
-
 
 
 
@@ -278,8 +276,8 @@ class UpdateTodo extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
     this.state = {
-      taskName: this.props.todo.id ? this.props.todo.taskName : '',
-      assignee: this.props.todo.id ? this.props.todo.assignee : ''
+      taskName: '',
+      assignee: ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -288,7 +286,7 @@ class UpdateTodo extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
     const {
       id
     } = this.props.match.params;
-    this.props.setTodo(id);
+    this.props.fetchTodo(id);
   }
   componentWillUnmount() {
     this.props.clearTodo();
@@ -343,28 +341,22 @@ class UpdateTodo extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       onSubmit: ev => ev.preventDefault()
     }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
       onClick: () => this.props.deleteTodo(this.props.match.params.id)
-    }, "Delete")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
-      to: "/"
-    }, "Cancel")));
+    }, "Delete")));
   }
 }
 const mapStateToProps = ({
   todo
-}) => {
-  return {
-    todo
-  };
-};
+}) => ({
+  todo
+});
 const mapDispatchToProps = (dispatch, {
   history
 }) => {
   return {
-    clearTodo: () => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["_setTodo"])({})),
-    updateTodo: todo => {
-      dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_2__["updateTodo"])(todo, history));
-    },
-    setTodo: id => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["setTodo"])(id)),
-    deleteTodo: todo => dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_2__["deleteTodo"])(todo, history))
+    updateTodo: todo => dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_2__["updateTodo"])(todo, history)),
+    deleteTodo: todo => dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_2__["deleteTodo"])(todo, history)),
+    fetchTodo: id => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["fetchTodo"])(id)),
+    clearTodo: () => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["_setTodo"])({}))
   };
 };
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(UpdateTodo));
@@ -386,14 +378,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/App */ "./client/components/App.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store */ "./client/store/index.js");
+/* harmony import */ var _client_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../client/store */ "./client/store/index.js");
 
 
 
 
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
-  store: _store__WEBPACK_IMPORTED_MODULE_4__["default"]
+  store: _client_store__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_App__WEBPACK_IMPORTED_MODULE_2__["default"], null)), document.getElementById('root'));
 
 /***/ }),
@@ -422,7 +414,8 @@ const rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"]
   todos: _todos__WEBPACK_IMPORTED_MODULE_3__["default"],
   todo: _todo__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
-/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_1___default.a)));
+const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_1___default.a));
+/* harmony default export */ __webpack_exports__["default"] = (store);
 
 /***/ }),
 
@@ -430,13 +423,13 @@ const rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"]
 /*!******************************!*\
   !*** ./client/store/todo.js ***!
   \******************************/
-/*! exports provided: _setTodo, setTodo, default */
+/*! exports provided: _setTodo, fetchTodo, default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_setTodo", function() { return _setTodo; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "setTodo", function() { return setTodo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTodo", function() { return fetchTodo; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -447,7 +440,7 @@ const _setTodo = todo => {
     todo
   };
 };
-const setTodo = id => {
+const fetchTodo = id => {
   return async dispatch => {
     try {
       const {
@@ -36151,7 +36144,7 @@ thunk.withExtraArgument = createThunkMiddleware;
 /*!****************************************!*\
   !*** ./node_modules/redux/es/redux.js ***!
   \****************************************/
-/*! exports provided: __DO_NOT_USE__ActionTypes, applyMiddleware, bindActionCreators, combineReducers, compose, createStore, legacy_createStore */
+/*! exports provided: __DO_NOT_USE__ActionTypes, applyMiddleware, bindActionCreators, combineReducers, compose, createStore */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -36162,7 +36155,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "combineReducers", function() { return combineReducers; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "compose", function() { return compose; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "createStore", function() { return createStore; });
-/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "legacy_createStore", function() { return legacy_createStore; });
 /* harmony import */ var _babel_runtime_helpers_esm_objectSpread2__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/helpers/esm/objectSpread2 */ "./node_modules/@babel/runtime/helpers/esm/objectSpread2.js");
 
 
@@ -36275,29 +36267,29 @@ function kindOf(val) {
 }
 
 /**
- * @deprecated
+ * Creates a Redux store that holds the state tree.
+ * The only way to change the data in the store is to call `dispatch()` on it.
  *
- * **We recommend using the `configureStore` method
- * of the `@reduxjs/toolkit` package**, which replaces `createStore`.
+ * There should only be a single store in your app. To specify how different
+ * parts of the state tree respond to actions, you may combine several reducers
+ * into a single reducer function by using `combineReducers`.
  *
- * Redux Toolkit is our recommended approach for writing Redux logic today,
- * including store setup, reducers, data fetching, and more.
+ * @param {Function} reducer A function that returns the next state tree, given
+ * the current state tree and the action to handle.
  *
- * **For more details, please read this Redux docs page:**
- * **https://redux.js.org/introduction/why-rtk-is-redux-today**
+ * @param {any} [preloadedState] The initial state. You may optionally specify it
+ * to hydrate the state from the server in universal apps, or to restore a
+ * previously serialized user session.
+ * If you use `combineReducers` to produce the root reducer function, this must be
+ * an object with the same shape as `combineReducers` keys.
  *
- * `configureStore` from Redux Toolkit is an improved version of `createStore` that
- * simplifies setup and helps avoid common bugs.
+ * @param {Function} [enhancer] The store enhancer. You may optionally specify it
+ * to enhance the store with third-party capabilities such as middleware,
+ * time travel, persistence, etc. The only store enhancer that ships with Redux
+ * is `applyMiddleware()`.
  *
- * You should not be using the `redux` core package by itself today, except for learning purposes.
- * The `createStore` method from the core `redux` package will not be removed, but we encourage
- * all users to migrate to using Redux Toolkit for all Redux code.
- *
- * If you want to use `createStore` without this visual deprecation warning, use
- * the `legacy_createStore` import instead:
- *
- * `import { legacy_createStore as createStore} from 'redux'`
- *
+ * @returns {Store} A Redux store that lets you read the state, dispatch actions
+ * and subscribe to changes.
  */
 
 function createStore(reducer, preloadedState, enhancer) {
@@ -36547,38 +36539,6 @@ function createStore(reducer, preloadedState, enhancer) {
     replaceReducer: replaceReducer
   }, _ref2[$$observable] = observable, _ref2;
 }
-/**
- * Creates a Redux store that holds the state tree.
- *
- * **We recommend using `configureStore` from the
- * `@reduxjs/toolkit` package**, which replaces `createStore`:
- * **https://redux.js.org/introduction/why-rtk-is-redux-today**
- *
- * The only way to change the data in the store is to call `dispatch()` on it.
- *
- * There should only be a single store in your app. To specify how different
- * parts of the state tree respond to actions, you may combine several reducers
- * into a single reducer function by using `combineReducers`.
- *
- * @param {Function} reducer A function that returns the next state tree, given
- * the current state tree and the action to handle.
- *
- * @param {any} [preloadedState] The initial state. You may optionally specify it
- * to hydrate the state from the server in universal apps, or to restore a
- * previously serialized user session.
- * If you use `combineReducers` to produce the root reducer function, this must be
- * an object with the same shape as `combineReducers` keys.
- *
- * @param {Function} [enhancer] The store enhancer. You may optionally specify it
- * to enhance the store with third-party capabilities such as middleware,
- * time travel, persistence, etc. The only store enhancer that ships with Redux
- * is `applyMiddleware()`.
- *
- * @returns {Store} A Redux store that lets you read the state, dispatch actions
- * and subscribe to changes.
- */
-
-var legacy_createStore = createStore;
 
 /**
  * Prints a warning in the console if it exists.
@@ -36866,6 +36826,17 @@ function applyMiddleware() {
       });
     };
   };
+}
+
+/*
+ * This is a dummy function to check if the function name has been altered by minification.
+ * If the function has been minified and NODE_ENV !== 'production', warn the user.
+ */
+
+function isCrushed() {}
+
+if ( true && typeof isCrushed.name === 'string' && isCrushed.name !== 'isCrushed') {
+  warning('You are currently using minified code outside of NODE_ENV === "production". ' + 'This means that you are running a slower development build of Redux. ' + 'You can use loose-envify (https://github.com/zertosh/loose-envify) for browserify ' + 'or setting mode to production in webpack (https://webpack.js.org/concepts/mode/) ' + 'to ensure you have the correct code for your production build.');
 }
 
 
