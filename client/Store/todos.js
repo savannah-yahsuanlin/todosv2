@@ -12,6 +12,13 @@ const _createTodo = (todo) => {
 	}
 }
 
+const _updateTodo = (todo) => {
+	return {
+		type: UPDATE_TODO,
+		todo
+	}
+}
+
 const _deleteTodo = (todo) => {
 	return {
 		type: DELETE_TODO,
@@ -26,32 +33,11 @@ const _setTodos = (todos) => {
 	}
 }
 
-const _updateTodo = (todo) => {
-	return {
-		type: UPDATE_TODO,
-		todo
-	}
-}
 
 export const createTodo = (todo, history) => {
 	return async (dispatch) => {
 		const {data: created} = await axios.post('/api/todos', todo)
 		dispatch(_createTodo(created))
-		history.push('/')
-	}
-}
-
-export const fetchTodos = () => {
-	return async dispatch => {
-		const { data: todos } = await axios.get('/api/todos')
-		dispatch(_setTodos(todos))
-	}
-}
-
-export const deleteTodo = (id, history) => {
-	return async dispatch => {
-		const {data: todo} = await axios.delete(`/api/todos/${id}`);
-		dispatch(_deleteTodo(todo))
 		history.push('/')
 	}
 }
@@ -64,6 +50,20 @@ export const updateTodo = (todo, history) => {
   };
 }
 
+export const deleteTodo = (id, history) => {
+	return async dispatch => {
+		const {data: todo} = await axios.delete(`/api/todos/${id}`);
+		dispatch(_deleteTodo(todo))
+		history.push('/')
+	}
+}
+
+export const fetchTodos = () => {
+	return async dispatch => {
+		const { data: todos } = await axios.get('/api/todos')
+		dispatch(_setTodos(todos))
+	}
+}
 
 export default function todosReducer(state=[], action) {
 	switch(action.type) {

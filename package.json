@@ -6,7 +6,7 @@
   "scripts": {
     "start": "node server/index.js",
     "start:dev": "npm run start-server & npm run build-watch",
-    "start-server": "nodemon --watch server --ignore public/ ",
+    "start-server": "nodemon --watch server -e js,html server/index.js ",
     "build-watch": "webpack -w",
     "build": "webpack"
   },

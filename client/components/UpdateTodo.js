@@ -1,5 +1,4 @@
 import React, {Component} from 'react'
-import { fetchTodo, _setTodo } from '../store/todo'
 import { deleteTodo, updateTodo } from '../store/todos'
 import { connect } from 'react-redux'
 
@@ -7,21 +6,12 @@ class UpdateTodo extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			taskName: '',
-      assignee: ''
+			taskName: this.props.todo ? this.props.todo.taskName : '',
+      assignee: this.props.todo ? this.props.todo.assignee : ''
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.onChange = this.onChange.bind(this)
 	}
-
-	componentDidMount() {
-		const {id} = this.props.match.params
-		this.props.fetchTodo(id);
-	}
-
-	componentWillUnmount() {
-    this.props.clearTodo();
-  }
 
 	componentDidUpdate(prevProps) {
     if (prevProps.todo.id !== this.props.todo.id) {
@@ -50,7 +40,7 @@ class UpdateTodo extends Component {
 
 		return (
 			<div>
-				 <form id='todo-form' onSubmit={handleSubmit}>
+				 <form onSubmit={handleSubmit}>
           <label htmlFor='taskName'>Task Name:</label>
           <input name='taskName' onChange={onChange} value={taskName} />
 
@@ -67,16 +57,17 @@ class UpdateTodo extends Component {
 	}
 }
 
-const mapStateToProps = ({ todo }) => ({
-  todo
-});
+const mapStateToProps = ({ todos }, {match}) => {
+	const todo = todos.find(todo => todo.id === match.params.id*1);
+  return {
+    todo
+  };
+}
 
 const mapDispatchToProps = (dispatch, {history}) => {
 	return {
 		updateTodo: (todo) => dispatch(updateTodo(todo, history)),
-		deleteTodo: (todo) => dispatch(deleteTodo(todo, history)),
-		fetchTodo: (id) => dispatch(fetchTodo(id)),
-		clearTodo: () =>  dispatch(_setTodo({}))		
+		deleteTodo: (todo) => dispatch(deleteTodo(todo, history))
 	}
 }
 
