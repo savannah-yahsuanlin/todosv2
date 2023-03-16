@@ -36,32 +36,48 @@ const _setTodos = (todos) => {
 
 export const createTodo = (todo, history) => {
 	return async (dispatch) => {
-		const {data: created} = await axios.post('/api/todos', todo)
-		dispatch(_createTodo(created))
-		history.push('/')
+		try {
+			const {data} = await axios.post('/api/todos', todo)
+			dispatch(_createTodo(data))
+			history.push('/')
+		} catch (error) {
+			console.log(error)	
+		}
 	}
 }
 
 export const updateTodo = (todo, history) => {
 	return async (dispatch) => {
-    const { data: updated } = await axios.put(`/api/todos/${todo.id}`, todo);
-    dispatch(_updateTodo(updated));
-    history.push('/');
+		try {
+			const { data } = await axios.put(`/api/todos/${todo.id}`, todo);
+			dispatch(_updateTodo(data));
+			history.push('/');
+		} catch (error) {
+			console.log(error)
+		}
   };
 }
 
 export const deleteTodo = (id, history) => {
 	return async dispatch => {
-		const {data: todo} = await axios.delete(`/api/todos/${id}`);
-		dispatch(_deleteTodo(todo))
-		history.push('/')
+		try {
+			const {data} = await axios.delete(`/api/todos/${id}`);
+			dispatch(_deleteTodo(data))
+			history.push('/')
+		} catch (error) {
+			console.log(error)
+		}
 	}
 }
 
 export const fetchTodos = () => {
-	return async dispatch => {
-		const { data: todos } = await axios.get('/api/todos')
-		dispatch(_setTodos(todos))
+	return async (dispatch) => {
+		try {
+			const { data } = await axios.get('/api/todos')
+			dispatch(_setTodos(data))
+		} catch (error) {
+			console.log(error)
+		}
 	}
 }
 
