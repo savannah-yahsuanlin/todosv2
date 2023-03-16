@@ -69,11 +69,9 @@ class UpdateTodo extends Component {
 	}
 }
 
-const mapStateToProps = ({todo}) => {
-	return {
-		todo
-	}
-}
+const mapStateToProps = ({ todo }) => ({
+  todo
+});
 
 const mapDispatchToProps = (dispatch, {history}) => {
 	return {
