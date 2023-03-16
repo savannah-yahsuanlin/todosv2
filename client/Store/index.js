@@ -9,7 +9,10 @@ const rootReducer = combineReducers({
   todo: todoReducer
 });
 
-export default createStore(
+const store = createStore(
   rootReducer,
   applyMiddleware(thunk, loggingMiddleware)
 );
+
+
+export default store
