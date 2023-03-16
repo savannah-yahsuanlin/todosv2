@@ -69,10 +69,10 @@ export default (state=[], action) => {
 	switch(action.type) {
 		case SET_TODOS:
 			return action.todos
-		case UPDATED_TODO:
+		case UPDATE_TODO:
 			return state.map((todo) =>
-        todo.id === action.todo.id ? action.todo : todo
-      );
+        todo.id !== action.todo.id ?  todo : action.todo 
+      )
 		case DELETE_TODO:
 			return state.filter(todo => todo.id !== action.todo.id)
 		case CREATE_TODO:

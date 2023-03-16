@@ -278,8 +278,8 @@ class UpdateTodo extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   constructor(props) {
     super(props);
     this.state = {
-      taskName: '',
-      assignee: ''
+      taskName: this.props.todo.id ? this.props.todo.taskName : '',
+      assignee: this.props.todo.id ? this.props.todo.assignee : ''
     };
     this.handleSubmit = this.handleSubmit.bind(this);
     this.onChange = this.onChange.bind(this);
@@ -309,8 +309,8 @@ class UpdateTodo extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
   handleSubmit(evt) {
     evt.preventDefault();
     this.props.updateTodo({
-      todo: this.props.todo,
-      state: this.state
+      ...this.props.todo,
+      ...this.state
     });
   }
   render() {
@@ -360,7 +360,7 @@ const mapDispatchToProps = (dispatch, {
 }) => {
   return {
     clearTodo: () => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["_setTodo"])({})),
-    update: todo => {
+    updateTodo: todo => {
       dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_2__["updateTodo"])(todo, history));
     },
     setTodo: id => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["setTodo"])(id)),
@@ -488,7 +488,7 @@ __webpack_require__.r(__webpack_exports__);
 
 const CREATE_TODO = 'CREATE_TODO';
 const DELETE_TODO = 'DELETE_TODO';
-const UPDATED_TODO = 'UPDATED_TODO';
+const UPDATE_TODO = 'UPDATE_TODO';
 const SET_TODOS = 'SET_TODOS';
 const _createTodo = todo => {
   return {
@@ -508,9 +508,9 @@ const _setTodos = todos => {
     todos
   };
 };
-const _updatedTodo = todo => {
+const _updateTodo = todo => {
   return {
-    type: UPDATED_TODO,
+    type: UPDATE_TODO,
     todo
   };
 };
@@ -531,17 +531,21 @@ const fetchTodos = () => {
     dispatch(_setTodos(todos));
   };
 };
-const deleteTodo = (todo, history) => {
+const deleteTodo = (id, history) => {
   return async dispatch => {
-    await axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`/api/todos/${todo.id}`);
+    const {
+      data: todo
+    } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.delete(`/api/todos/${id}`);
     dispatch(_deleteTodo(todo));
     history.push('/');
   };
 };
 const updateTodo = (todo, history) => {
   return async dispatch => {
-    const updated = (await axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(`/api/todos/${todo.id}`, todo)).data;
-    dispatch(_updatedTodo(updated));
+    const {
+      data: updated
+    } = await axios__WEBPACK_IMPORTED_MODULE_0___default.a.put(`/api/todos/${todo.id}`, todo);
+    dispatch(_updateTodo(updated));
     history.push('/');
   };
 };
@@ -549,8 +553,8 @@ const updateTodo = (todo, history) => {
   switch (action.type) {
     case SET_TODOS:
       return action.todos;
-    case UPDATED_TODO:
-      return state.map(todo => todo.id === action.todo.id ? action.todo : todo);
+    case UPDATE_TODO:
+      return state.map(todo => todo.id !== action.todo.id ? todo : action.todo);
     case DELETE_TODO:
       return state.filter(todo => todo.id !== action.todo.id);
     case CREATE_TODO:

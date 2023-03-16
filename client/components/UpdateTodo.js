@@ -8,8 +8,8 @@ class UpdateTodo extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			taskName: '',
-			assignee: ''
+			taskName: this.props.todo.id ? this.props.todo.taskName : '',
+			assignee: this.props.todo.id ? this.props.todo.assignee : ''
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.onChange = this.onChange.bind(this)
@@ -41,8 +41,9 @@ class UpdateTodo extends Component {
 
 	handleSubmit(evt) {
     evt.preventDefault();
-    this.props.updateTodo({ todo: this.props.todo, state: this.state});
+    this.props.updateTodo({ ...this.props.todo, ...this.state });
   }
+
 
 	render() {
 		const {taskName, assignee} = this.state
@@ -77,7 +78,7 @@ const mapStateToProps = ({todo}) => {
 const mapDispatchToProps = (dispatch, {history}) => {
 	return {
 		clearTodo: () =>  dispatch(_setTodo({})),
-		update: (todo) => {dispatch(updateTodo(todo, history))},
+		updateTodo: (todo) => {dispatch(updateTodo(todo, history))},
 		setTodo: (id) => dispatch(setTodo(id)),
 		deleteTodo: (todo) => dispatch(deleteTodo(todo, history)),
 	}
