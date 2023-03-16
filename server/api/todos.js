@@ -18,7 +18,7 @@ router.get('/:id', async(req, res, next) => {
 	}
 })
 
-router.post('/:id', async(req, res, next) => {
+router.post('/', async(req, res, next) => {
 	try {
 		res.status(201).send(await Todo.create(req.body))
 	} catch (error) {

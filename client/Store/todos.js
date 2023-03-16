@@ -2,7 +2,7 @@ import axios from 'axios'
 
 const CREATE_TODO = 'CREATE_TODO'
 const DELETE_TODO = 'DELETE_TODO'
-const UPDATED_TODO = 'UPDATED_TODO'
+const UPDATE_TODO = 'UPDATE_TODO'
 const SET_TODOS = 'SET_TODOS'
 
 const _createTodo = (todo) => {
@@ -26,9 +26,9 @@ const _setTodos = (todos) => {
 	}
 }
 
-const _updatedTodo = (todo) => {
+const _updateTodo = (todo) => {
 	return {
-		type: UPDATED_TODO,
+		type: UPDATE_TODO,
 		todo
 	}
 }
@@ -48,28 +48,31 @@ export const fetchTodos = () => {
 	}
 }
 
-export const deleteTodo = (todo, history) => {
+export const deleteTodo = (id, history) => {
 	return async dispatch => {
-		await axios.delete(`/api/todos/${todo.id}`)
+		const {data: todo} = await axios.delete(`/api/todos/${id}`);
 		dispatch(_deleteTodo(todo))
 		history.push('/')
 	}
 }
 
 export const updateTodo = (todo, history) => {
-	return async dispatch => {
-		const updated = (await axios.put(`/api/todos/${todo.id}`, todo)).data 
-		dispatch(_updatedTodo(updated))
-		history.push('/')
-	}
+	return async (dispatch) => {
+    const { data: updated } = await axios.put(`/api/todos/${todo.id}`, todo);
+    dispatch(_updateTodo(updated));
+    history.push('/');
+  };
 }
+
 
 export default (state=[], action) => {
 	switch(action.type) {
 		case SET_TODOS:
 			return action.todos
 		case UPDATED_TODO:
-			return state.map(todo => todo.id === action.todo.id ? action.todo : todo)
+			return state.map((todo) =>
+        todo.id === action.todo.id ? action.todo : todo
+      );
 		case DELETE_TODO:
 			return state.filter(todo => todo.id !== action.todo.id)
 		case CREATE_TODO:

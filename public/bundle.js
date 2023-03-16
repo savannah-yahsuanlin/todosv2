@@ -99,14 +99,15 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
 /* harmony import */ var _Todos__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Todos */ "./client/components/Todos.js");
-/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _store_todos__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../store/todos */ "./client/store/todos.js");
+/* harmony import */ var _CreateTodo__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./CreateTodo */ "./client/components/CreateTodo.js");
+/* harmony import */ var _UpdateTodo__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./UpdateTodo */ "./client/components/UpdateTodo.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var _store_todos__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ../store/todos */ "./client/store/todos.js");
 
 
 
-//import CreateTodo from './CreateTodo';
-//import EditTodo from './EditTodo';
-//import UpdateTodo from './UpdateTodo';
+
+
 
 
 class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
@@ -124,6 +125,12 @@ class App extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
       exact: true,
       path: "/",
       component: _Todos__WEBPACK_IMPORTED_MODULE_2__["default"]
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      path: "/todos/create",
+      component: _CreateTodo__WEBPACK_IMPORTED_MODULE_3__["default"]
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_1__["Route"], {
+      path: "/todos/:id",
+      component: _UpdateTodo__WEBPACK_IMPORTED_MODULE_4__["default"]
     }))));
   }
 }
@@ -133,9 +140,81 @@ const mapStateToProps = ({
   todos
 });
 const mapDispatchToProps = dispatch => ({
-  load: () => dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_4__["fetchTodos"])())
+  load: () => dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_6__["fetchTodos"])())
 });
-/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(App));
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_5__["connect"])(mapStateToProps, mapDispatchToProps)(App));
+
+/***/ }),
+
+/***/ "./client/components/CreateTodo.js":
+/*!*****************************************!*\
+  !*** ./client/components/CreateTodo.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_todos__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/todos */ "./client/store/todos.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+
+class CreateTodo extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor() {
+    super();
+    this.state = {
+      taskName: '',
+      assignee: ''
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+  onChange(e) {
+    const change = {};
+    change[e.target.name] = e.target.value;
+    this.setState(change);
+  }
+  handleSubmit(e) {
+    e.preventDefault();
+    this.props.createTodo({
+      ...this.state
+    });
+  }
+  render() {
+    const {
+      assignee,
+      taskName
+    } = this.state;
+    const {
+      onChange,
+      handleSubmit
+    } = this;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      onSubmit: handleSubmit
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Task Name:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      name: "taskName",
+      value: taskName,
+      onChange: onChange
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", null, "Assignee:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      name: "assignee",
+      value: assignee,
+      onChange: onChange
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, "Create"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__["Link"], {
+      to: "/"
+    }, "Cancel"));
+  }
+}
+const mapDispatchToProps = (dispatch, {
+  history
+}) => ({
+  createTodo: todo => dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_1__["createTodo"])(todo, history))
+});
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_2__["connect"])(null, mapDispatchToProps)(CreateTodo));
 
 /***/ }),
 
@@ -172,6 +251,123 @@ const mapStateToProps = ({
   todos
 });
 /* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_1__["connect"])(mapStateToProps)(Todos));
+
+/***/ }),
+
+/***/ "./client/components/UpdateTodo.js":
+/*!*****************************************!*\
+  !*** ./client/components/UpdateTodo.js ***!
+  \*****************************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
+/* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _store_todo__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ../store/todo */ "./client/store/todo.js");
+/* harmony import */ var _store_todos__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ../store/todos */ "./client/store/todos.js");
+/* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/esm/react-router-dom.js");
+
+
+
+
+
+class UpdateTodo extends react__WEBPACK_IMPORTED_MODULE_0__["Component"] {
+  constructor(props) {
+    super(props);
+    this.state = {
+      taskName: '',
+      assignee: ''
+    };
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.onChange = this.onChange.bind(this);
+  }
+  componentDidMount() {
+    const {
+      id
+    } = this.props.match.params;
+    this.props.setTodo(id);
+  }
+  componentWillUnmount() {
+    this.props.clearTodo();
+  }
+  componentDidUpdate(prevProps) {
+    if (prevProps.todo.id !== this.props.todo.id) {
+      this.setState({
+        taskName: this.props.todo.taskName || '',
+        assignee: this.props.todo.assignee || ''
+      });
+    }
+  }
+  onChange(evt) {
+    this.setState({
+      [evt.target.name]: evt.target.value
+    });
+  }
+  handleSubmit(evt) {
+    evt.preventDefault();
+    this.props.updateTodo({
+      todo: this.props.todo,
+      state: this.state
+    });
+  }
+  render() {
+    const {
+      taskName,
+      assignee
+    } = this.state;
+    const {
+      onChange,
+      handleSubmit
+    } = this;
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("form", {
+      id: "todo-form",
+      onSubmit: handleSubmit
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "taskName"
+    }, "Task Name:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      name: "taskName",
+      onChange: onChange,
+      value: taskName
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("label", {
+      htmlFor: "assignee"
+    }, "Assign To:"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("input", {
+      name: "assignee",
+      onChange: onChange,
+      value: assignee
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      type: "submit"
+    }, "Submit")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("div", {
+      onSubmit: ev => ev.preventDefault()
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", {
+      onClick: () => this.props.deleteTodo(this.props.match.params.id)
+    }, "Delete")), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement("button", null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__["Link"], {
+      to: "/"
+    }, "Cancel")));
+  }
+}
+const mapStateToProps = ({
+  todo
+}) => {
+  return {
+    todo
+  };
+};
+const mapDispatchToProps = (dispatch, {
+  history
+}) => {
+  return {
+    clearTodo: () => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["_setTodo"])({})),
+    update: todo => {
+      dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_2__["updateTodo"])(todo, history));
+    },
+    setTodo: id => dispatch(Object(_store_todo__WEBPACK_IMPORTED_MODULE_1__["setTodo"])(id)),
+    deleteTodo: todo => dispatch(Object(_store_todos__WEBPACK_IMPORTED_MODULE_2__["deleteTodo"])(todo, history))
+  };
+};
+/* harmony default export */ __webpack_exports__["default"] = (Object(react_redux__WEBPACK_IMPORTED_MODULE_3__["connect"])(mapStateToProps, mapDispatchToProps)(UpdateTodo));
 
 /***/ }),
 
