@@ -73,7 +73,7 @@ const mapStateToProps = ({ todo }) => ({
 
 const mapDispatchToProps = (dispatch, {history}) => {
 	return {
-		updateTodo: (todo) => {dispatch(updateTodo(todo, history))},
+		updateTodo: (todo) => dispatch(updateTodo(todo, history)),
 		deleteTodo: (todo) => dispatch(deleteTodo(todo, history)),
 		fetchTodo: (id) => dispatch(fetchTodo(id)),
 		clearTodo: () =>  dispatch(_setTodo({}))		
