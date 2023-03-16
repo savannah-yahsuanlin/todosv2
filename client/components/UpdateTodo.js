@@ -1,15 +1,14 @@
 import React, {Component} from 'react'
-import { setTodo, _setTodo } from '../store/todo'
+import { fetchTodo, _setTodo } from '../store/todo'
 import { deleteTodo, updateTodo } from '../store/todos'
 import { connect } from 'react-redux'
-import { Link } from 'react-router-dom'
 
 class UpdateTodo extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			taskName: this.props.todo.id ? this.props.todo.taskName : '',
-			assignee: this.props.todo.id ? this.props.todo.assignee : ''
+			taskName: '',
+      assignee: ''
 		}
 		this.handleSubmit = this.handleSubmit.bind(this)
 		this.onChange = this.onChange.bind(this)
@@ -17,7 +16,7 @@ class UpdateTodo extends Component {
 
 	componentDidMount() {
 		const {id} = this.props.match.params
-		this.props.setTodo(id);
+		this.props.fetchTodo(id);
 	}
 
 	componentWillUnmount() {
@@ -63,7 +62,6 @@ class UpdateTodo extends Component {
 				<div onSubmit={(ev) => ev.preventDefault()}>
 						<button onClick={() => this.props.deleteTodo(this.props.match.params.id)}>Delete</button>
 				</div>
-				<button><Link to='/'>Cancel</Link></button>
 			</div>
 		)
 	}
@@ -75,10 +73,10 @@ const mapStateToProps = ({ todo }) => ({
 
 const mapDispatchToProps = (dispatch, {history}) => {
 	return {
-		clearTodo: () =>  dispatch(_setTodo({})),
 		updateTodo: (todo) => {dispatch(updateTodo(todo, history))},
-		setTodo: (id) => dispatch(setTodo(id)),
 		deleteTodo: (todo) => dispatch(deleteTodo(todo, history)),
+		fetchTodo: (id) => dispatch(fetchTodo(id)),
+		clearTodo: () =>  dispatch(_setTodo({}))		
 	}
 }
 

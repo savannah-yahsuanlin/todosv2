@@ -8,7 +8,7 @@ export const _setTodo = (todo) => {
 	}
 }
 
-export const setTodo = (id) => {
+export const fetchTodo = (id) => {
 	return async dispatch => {
 		try {
 			const {data} = await axios.get(`/api/todos/${id}`)
