@@ -65,7 +65,7 @@ export const updateTodo = (todo, history) => {
 }
 
 
-export default (state=[], action) => {
+export default function todosReducer(state=[], action) {
 	switch(action.type) {
 		case SET_TODOS:
 			return action.todos

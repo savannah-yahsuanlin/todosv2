@@ -19,7 +19,7 @@ export const fetchTodo = (id) => {
 	}
 }
 
-export default (state = {}, action) => {
+export default function todoReducer(state = {}, action) {
 	switch(action.type) {
 		case SET_TODO:
 			return action.todo
