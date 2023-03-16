@@ -378,14 +378,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react_dom__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(react_dom__WEBPACK_IMPORTED_MODULE_1__);
 /* harmony import */ var _components_App__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./components/App */ "./client/components/App.js");
 /* harmony import */ var react_redux__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-redux */ "./node_modules/react-redux/es/index.js");
-/* harmony import */ var _client_store__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ../client/store */ "./client/store/index.js");
+/* harmony import */ var _store_index__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./store/index */ "./client/store/index.js");
 
 
 
 
 
 react_dom__WEBPACK_IMPORTED_MODULE_1___default.a.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(react_redux__WEBPACK_IMPORTED_MODULE_3__["Provider"], {
-  store: _client_store__WEBPACK_IMPORTED_MODULE_4__["default"]
+  store: _store_index__WEBPACK_IMPORTED_MODULE_4__["default"]
 }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default.a.createElement(_components_App__WEBPACK_IMPORTED_MODULE_2__["default"], null)), document.getElementById('root'));
 
 /***/ }),
@@ -414,8 +414,7 @@ const rootReducer = Object(redux__WEBPACK_IMPORTED_MODULE_0__["combineReducers"]
   todos: _todos__WEBPACK_IMPORTED_MODULE_3__["default"],
   todo: _todo__WEBPACK_IMPORTED_MODULE_4__["default"]
 });
-const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_1___default.a));
-/* harmony default export */ __webpack_exports__["default"] = (store);
+/* harmony default export */ __webpack_exports__["default"] = (Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootReducer, Object(redux__WEBPACK_IMPORTED_MODULE_0__["applyMiddleware"])(redux_thunk__WEBPACK_IMPORTED_MODULE_2__["default"], redux_logger__WEBPACK_IMPORTED_MODULE_1___default.a)));
 
 /***/ }),
 
@@ -430,6 +429,7 @@ const store = Object(redux__WEBPACK_IMPORTED_MODULE_0__["createStore"])(rootRedu
 __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "_setTodo", function() { return _setTodo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTodo", function() { return fetchTodo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return todoReducer; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -452,14 +452,14 @@ const fetchTodo = id => {
     }
   };
 };
-/* harmony default export */ __webpack_exports__["default"] = ((state = {}, action) => {
+function todoReducer(state = {}, action) {
   switch (action.type) {
     case SET_TODO:
       return action.todo;
     default:
       return state;
   }
-});
+}
 
 /***/ }),
 
@@ -476,6 +476,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "fetchTodos", function() { return fetchTodos; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "deleteTodo", function() { return deleteTodo; });
 /* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "updateTodo", function() { return updateTodo; });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "default", function() { return todosReducer; });
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
 
@@ -542,7 +543,7 @@ const updateTodo = (todo, history) => {
     history.push('/');
   };
 };
-/* harmony default export */ __webpack_exports__["default"] = ((state = [], action) => {
+function todosReducer(state = [], action) {
   switch (action.type) {
     case SET_TODOS:
       return action.todos;
@@ -555,7 +556,7 @@ const updateTodo = (todo, history) => {
     default:
       return state;
   }
-});
+}
 
 /***/ }),
 
