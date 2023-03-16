@@ -4,10 +4,10 @@
   "description": "",
   "main": "server/index.js",
   "scripts": {
-    "start": "node server/index",
-    "start:dev": "npm run start-server & npm run build:dev",
-    "start-server": "nodemon server --ignore public/ --ignore client/",
-    "build:dev": "npm run build -- --watch --mode=development",
+    "start": "node server/index.js",
+    "start:dev": "npm run start-server & npm run build-watch",
+    "start-server": "nodemon --watch server --ignore public/ --ignore client/",
+    "build-watch": "webpack -w",
     "build": "webpack"
   },
   "author": "",
