@@ -1,13 +1,12 @@
-const { blueBright } = require('chalk');
-const PORT = process.env.PORT || 8081;
+const PORT = 8081;
 const app = require('./app');
-const db = require('./db');
+const {conn} = require('./db')
 
-const init = async () => {
-  await db.syncAndSeed();
-  app.listen(PORT, () =>
-    console.log(blueBright(`Listening at http://localhost:${PORT}`))
-  );
-};
 
-init();
+conn.sync()
+  .then(() => {
+    app.listen(PORT, () => console.log(`
+        Listening on port ${PORT}
+        http://localhost:${PORT}/
+    `))
+  })
