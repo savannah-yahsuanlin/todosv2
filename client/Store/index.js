@@ -34,7 +34,7 @@ const _setTodos = (todos) => {
   };
 };
 
-export const createTodo = (todo, history) => {
+const createTodo = (todo, history) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.post("/api/todos", todo);
@@ -46,7 +46,7 @@ export const createTodo = (todo, history) => {
   };
 };
 
-export const updateTodo = (todo, history) => {
+const updateTodo = (todo, history) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.put(`/api/todos/${todo.id}`, todo);
@@ -58,7 +58,7 @@ export const updateTodo = (todo, history) => {
   };
 };
 
-export const deleteTodo = (id, history) => {
+const deleteTodo = (id, history) => {
   return async (dispatch) => {
     try {
       const { data } = await axios.delete(`/api/todos/${id}`);
@@ -70,7 +70,7 @@ export const deleteTodo = (id, history) => {
   };
 };
 
-export const fetchTodos = () => {
+const fetchTodos = () => {
   return async (dispatch) => {
     try {
       const { data } = await axios.get("/api/todos");
@@ -81,7 +81,7 @@ export const fetchTodos = () => {
   };
 };
 
-export function reducer(state = [], action) {
+function reducer(state = [], action) {
   switch (action.type) {
     case SET_TODOS:
       return action.todos;
@@ -98,7 +98,7 @@ export function reducer(state = [], action) {
   }
 }
 
-let store = createStore(reducer);
+const store = createStore(reducer);
 
 export default store;
 
