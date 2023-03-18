@@ -1,5 +1,5 @@
 import React, {Component} from 'react'
-import { deleteTodo, updateTodo } from '../store/todos'
+import { deleteTodo, updateTodo } from '../store'
 import { connect } from 'react-redux'
 
 class UpdateTodo extends Component {
