@@ -102,10 +102,10 @@ export function reducer(state = [], action) {
   }
 }
 
-const middleware = composeWithDevTools(
-  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-);
+//const middleware = composeWithDevTools(
+//  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
+//);
 
-const store = createStore(reducer, middleware);
+let store = createStore(reducer);
 
 export default store;
