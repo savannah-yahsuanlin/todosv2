@@ -1,8 +1,4 @@
-import { createStore, combineReducers, applyMiddleware } from "redux";
-import { createLogger } from "redux-logger";
-import thunkMiddleware from "redux-thunk";
-import { composeWithDevTools } from "redux-devtools-extension";
-
+import { createStore } from "redux";
 import axios from "axios";
 
 const CREATE_TODO = "CREATE_TODO";
@@ -101,10 +97,6 @@ export function reducer(state = [], action) {
       return state;
   }
 }
-
-//const middleware = composeWithDevTools(
-//  applyMiddleware(thunkMiddleware, createLogger({ collapsed: true }))
-//);
 
 let store = createStore(reducer);
 

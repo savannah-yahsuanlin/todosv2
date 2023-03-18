@@ -4,12 +4,12 @@ const seed = async() => {
 	await conn.sync({force: true})
 
 	await Todo.create({
-		taskName: 'Buy cat food',
+		taskName: 'Buy dog food',
 		assignee: 'Cody'
 	})
 
 	await Todo.create({
-		taskName: 'Take over',
+		taskName: 'Take out',
 		assignee: 'Cody'
 	})
 
