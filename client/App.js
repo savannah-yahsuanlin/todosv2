@@ -4,7 +4,7 @@ import Todos from './Todos';
 import CreateTodo from './CreateTodo';
 import UpdateTodo from './UpdateTodo';
 import { connect } from 'react-redux';
-import { fetchTodos } from '../store';
+import { fetchTodos } from './store';
 
 
 
