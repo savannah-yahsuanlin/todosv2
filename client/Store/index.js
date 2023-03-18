@@ -101,3 +101,5 @@ export function reducer(state = [], action) {
 let store = createStore(reducer);
 
 export default store;
+
+export {createTodo, updateTodo, deleteTodo, fetchTodos}
