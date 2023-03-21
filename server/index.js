@@ -5,8 +5,5 @@ const {conn} = require('./db')
 
 conn.sync()
   .then(() => {
-    app.listen(PORT, () => console.log(`
-        Listening on port ${PORT}
-        http://localhost:${PORT}/
-    `))
+    app.listen(PORT, () => console.log(`Listening on port ${PORT}`))
   })
