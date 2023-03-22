@@ -19,7 +19,7 @@ class App extends Component {
       <Router>
         <div id='main'>
           <h1>
-            <Link to='/'>Todos ({this.props.todos.length})</Link>
+            <Link to='/'>Todos</Link>
           </h1>
           <Link to='/todos/create'>Create A New Todo</Link>
           <Switch>
